@@ -1,0 +1,138 @@
+/* Style the TableView itself
+.table-view {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ccc;
+    -fx-border-width: 2px;
+    -fx-background-insets: 0;
+}
+
+ Style TableColumn Headers
+.table-column-header {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+ Style the TableView Rows
+.table-row-cell {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black; /* Default text color
+}
+
+/* Style Selected Table Rows (left-clicked)
+.left-clicked {
+    -fx-background-color: purple;
+    -fx-text-fill: white; /* Text color for left-clicked row
+}
+
+/* Hover Effect for Row
+.table-row-cell:hover {
+    -fx-background-color: lightblue;
+    -fx-text-fill: black;
+}
+
+/* Keep hover style even after right-click
+.table-row-cell:hover.left-clicked {
+    -fx-background-color: lightblue;
+    -fx-text-fill: black;
+}
+
+/* Remove hover effect from selected row
+.left-clicked:hover {
+    -fx-background-color: purple;
+    -fx-text-fill: white;
+}
+
+/* Animation for the Refresh Button
+.hover-button {
+    -fx-background-color: #0078d7;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5 10;
+    -fx-transition: all 0.3s ease;
+}
+
+.hover-button:hover {
+    -fx-background-color: #0056a4;
+    -fx-text-fill: white;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+.first-column{
+    -fx-text-fill: blue;
+}
+.right-clicked {
+    -fx-text-fill: #333 !important;
+}
+/* General TableView Styles */
+/* General TableView Styles */
+/* Overall TableView Styles */
+.table-view {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ccc;
+    -fx-border-width: 2px;
+    -fx-background-insets: 0;
+}
+
+/* TableColumn Header Styles */
+.table-column-header {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Default TableView Row Styles */
+.table-row-cell {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333; /* Default black text */
+}
+
+/* Hover Effect for Rows */
+.table-row-cell:hover {
+    -fx-background-color: lightblue;
+    -fx-text-fill: inherit; /* Preserve the current text color */
+}
+
+/* Style for Left-Clicked Rows */
+.left-clicked {
+    -fx-background-color: purple;
+    -fx-text-fill: white; /* Ensure text remains white */
+}
+
+/* Style for Right-Clicked Rows */
+.right-clicked {
+    -fx-background-color: #ffffff; /* Keep the original background */
+    -fx-text-fill: #333; /* Set text color to default black */
+}
+
+/* Prevent Focus State from Overriding Custom Styles */
+.table-row-cell:focused {
+    -fx-background-color: transparent; /* Keep the background as is */
+    -fx-text-fill: inherit; /* Preserve current text color */
+}
+
+/* Override selection styles */
+.table-row-cell:selected {
+    -fx-background-color: purple; /* Purple background for selected rows */
+    -fx-text-fill: white; /* Ensure text stays white */
+}
+
+/* Button Styles */
+.hover-button {
+    -fx-background-color: #0078d7;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5 10;
+    -fx-transition: all 0.3s ease;
+    -fx-text-fill: black;
+}
+
+.hover-button:hover {
+    -fx-background-color: #0056a4;
+    -fx-text-fill: #fff;
+}
+
+/* Ensure Styling for the First Column */
+.first-column {
+    -fx-text-fill: blue;
+}

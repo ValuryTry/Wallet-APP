@@ -1,0 +1,15 @@
+.alert {
+    -fx-background-color: #ffcc00; /* Jaune pour attirer l'attention */
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.alert .header {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.alert .content {
+    -fx-font-size: 14px;
+    -fx-text-fill: darkred;
+}
