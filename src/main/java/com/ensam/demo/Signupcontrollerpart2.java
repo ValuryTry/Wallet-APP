@@ -1,5 +1,4 @@
 package com.ensam.demo;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -68,11 +69,15 @@ public class Signupcontrollerpart2 implements Initializable {
 
                 int rowsUpdated = psUpdate.executeUpdate();
                 if (rowsUpdated > 0) {
+                    createUserFile(TF_username.getText());
                     FXMLLoader loader = new FXMLLoader(Signupcontrollerpart2.class.getResource("main.fxml"));
                     Stage stage2 = new Stage();
-                    stage2.setScene(new Scene(loader.load()));
+                    Scene scene = new Scene(loader.load());
+                    scene.getStylesheets().add(getClass().getResource("styleTEXTFields.css").toExternalForm());
+                    stage2.setScene(scene);
                     stage2.setTitle("Wallet APP");
                     stage2.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("Wallet-PNG-Background.png")));
+                    StageConfigurator.configureStage(stage2);
                     stage2.show();
                     //close the current scene
                     Stage stage = (Stage) TF_username.getScene().getWindow();
@@ -133,6 +138,22 @@ public class Signupcontrollerpart2 implements Initializable {
 
 
 
+    }
+    private void createUserFile(String username) {
+        String fileName = username + ".txt";
+        File file = new File("C:\\Users\\USER\\Desktop\\Users_Transaction",fileName);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            // Write initial content to the file
+            writer.write("User: " + username);
+            writer.newLine();
+            writer.write("Transaction History:");
+            writer.newLine();
+            System.out.println("File created: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error creating file for user: " + username);
+            e.printStackTrace();
+        }
     }
 
 }

@@ -15,6 +15,8 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +44,7 @@ public class Signupcontroller implements Initializable {
         stage2.setScene(new Scene(loader.load()));
         stage2.setTitle("Wallet APP");
         stage2.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("Wallet-PNG-Background.png")));
+        StageConfigurator.configureStage(stage2);
         stage2.show();
         Stage stage = (Stage) firstname.getScene().getWindow();
         stage.close();
@@ -71,7 +74,7 @@ public class Signupcontroller implements Initializable {
     public  void signUpUser1(Event event) throws IOException {
         // Use try-with-resources to manage resources
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc-project", "root", "1234");
-             PreparedStatement psInsert = connection.prepareStatement("INSERT INTO users_bank(first_Name, last_Name , gender , occupation  ) VALUES (?,?,?,?)")) {
+             PreparedStatement psInsert = connection.prepareStatement("INSERT INTO users_bank(first_Name, last_Name , gender , occupation ,Age_user ) VALUES (?,?,?,?,?)")) {
 
 
 
@@ -81,7 +84,9 @@ public class Signupcontroller implements Initializable {
             psInsert.setString(2, lastname.getText());
             psInsert.setString(3, gender.getValue());
             psInsert.setString(4, occupation.getValue());
-
+            LocalDate selectedDate1 = dob.getValue();
+            int age1 = calculateAge(selectedDate1,LocalDate.now());
+            psInsert.setInt(5, age1);
            if(firstname.getText().isEmpty() || lastname.getText().isEmpty() || gender.getValue() == null || occupation.getValue() == null) {
                Alert alert = new Alert(Alert.AlertType.ERROR);
                alert.setTitle("Error");
@@ -115,6 +120,29 @@ public class Signupcontroller implements Initializable {
 
                    return;
                }
+               //the user must be 18+ to create an account and ofc he needs to choose a date of birth
+               LocalDate selectedDate = dob.getValue();
+               if(selectedDate == null ) {
+                   Alert alert = new Alert(Alert.AlertType.ERROR);
+                   alert.setTitle("Error");
+                   alert.setHeaderText(null);
+                   alert.setContentText("You need to enter a valid date of birth");
+                   alert.showAndWait();
+                   return;
+               }
+               else{
+                   int age = calculateAge(selectedDate,LocalDate.now());
+                   if(age<18){
+                       Alert alert = new Alert(Alert.AlertType.ERROR);
+                       alert.setTitle("Error");
+                       alert.setHeaderText(null);
+                       alert.setContentText("You need to be 18+ to create an account ");
+                       alert.showAndWait();
+                       check.setSelected(false);
+                       return;
+                   }
+
+               }
            }
 
             // Execute update
@@ -129,6 +157,7 @@ public class Signupcontroller implements Initializable {
             Signupcontrollerpart2 controller = loader.getController();
             controller.initializeData(firstname.getText(),lastname.getText());
             controller.setupStageCloseHandler(stage2);
+            StageConfigurator.configureStage(stage2);
             stage2.show();
             //close the current scene
             Stage stage = (Stage) firstname.getScene().getWindow();
@@ -158,6 +187,9 @@ public class Signupcontroller implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+        return Period.between(birthDate, currentDate).getYears();
     }
 
 }

@@ -3,6 +3,15 @@ import javafx.beans.property.*;
 import java.math.BigDecimal;
 
 public class User {
+    private int databaseId; // The actual ID from the database
+
+    public int getDatabaseId() {
+        return databaseId;
+    }
+
+    public void setDatabaseId(int databaseId) {
+        this.databaseId = databaseId;
+    }
 
     private IntegerProperty id;
     private StringProperty firstName;

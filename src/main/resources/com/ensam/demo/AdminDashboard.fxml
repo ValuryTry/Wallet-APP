@@ -56,6 +56,7 @@
                     </columns>
                 </TableView>
                 <Button fx:id="refreshButton" layoutX="20.0" layoutY="372.0" onAction="#refreshData" prefHeight="3.0" prefWidth="70.0" style="-fx-background-color: lightblue;" styleClass="hover-button" stylesheets="@styleTable-UsersFORadmin.css" text="Refresh" />
+            <Button fx:id="home" layoutX="247.0" layoutY="372.0" mnemonicParsing="false" onAction="#switchToHome" text="Return to Home" />
             </children>
         </AnchorPane>
     </children>

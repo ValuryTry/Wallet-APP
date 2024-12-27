@@ -1,0 +1,58 @@
+/*.text-field {
+    -fx-border-color: grey;
+    -fx-border-width: 0 0 1 0; // top, right, bottom, left
+-fx-background-color: transparent;
+}*/
+/* Base styling for modern TextFields */
+/* Base styling for modern TextFields */
+/* Base styling for modern TextFields */
+/* Base styling for modern TextFields */
+/* Base styling for modern TextFields */
+/* Modern animated TextField */
+/* Base styling for animated TextFields */
+.animated-text-field {
+    -fx-border-color: transparent transparent grey transparent; /* Underline only */
+    -fx-border-width: 0 0 1 0; /* Top, Right, Bottom, Left */
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-padding: 5 0 5 0; /* Adjust padding for alignment */
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333; /* Regular text color */
+    -fx-prompt-text-fill: grey; /* Initial prompt text color */
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-transition: all 0.3s ease-in-out; /* Smooth transition for most properties */
+}
+
+/* Focused effect: Light blue underline and glowing border */
+.animated-text-field:focused {
+    -fx-border-color: transparent transparent lightblue transparent; /* Light blue underline */
+    -fx-border-width: 0 0 2 0; /* Thicker underline on focus */
+    -fx-prompt-text-fill: white; /* Change prompt text color to white */
+    -fx-effect: dropshadow(gaussian, rgba(173, 216, 230, 0.5), 5, 0, 0, 1); /* Glow effect */
+}
+
+/* Stylish Buttons */
+.stylish-button {
+    -fx-background-color: #e74c3c; /* Red background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-padding: 10 20; /* Adjust padding */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Match the border */
+    -fx-cursor: hand; /* Pointer on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Subtle shadow */
+    -fx-transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Button Hover Effect */
+.stylish-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+    /*-fx-transform: scale(1.05); /* Slightly enlarge */
+}
+
+/* Button Pressed Effect */
+.stylish-button:pressed {
+    -fx-background-color: #a93226; /* Even darker red */
+    /*-fx-transform: scale(1.0); /* Reset scale */
+}
+

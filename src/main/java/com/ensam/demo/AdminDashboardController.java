@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -15,9 +16,11 @@ import java.sql.*;
 import java.math.BigDecimal;
 
 public class AdminDashboardController {
-
+    @FXML
+    private Button home;
     @FXML
     private TableView<User> userTable;
+
 
     @FXML
     private TableColumn<User, Integer> idColumn;
@@ -98,11 +101,11 @@ public class AdminDashboardController {
                             accessDashboardItem.setOnAction(e -> onAccessUserDashboardAction(selectedUser));
 
                             // Menu item for deleting the user
-                            MenuItem deleteUserItem = new MenuItem("Delete User");
-                            deleteUserItem.setOnAction(e -> deleteUser(selectedUser));
+                            // MenuItem deleteUserItem = new MenuItem("Delete User");
+                            //deleteUserItem.setOnAction(e -> deleteUser(selectedUser));
 
                             // Add items to the context menu
-                            contextMenu.getItems().addAll(accessDashboardItem, deleteUserItem);
+                            contextMenu.getItems().addAll(accessDashboardItem);
 
                             // Show context menu at the mouse location
                             contextMenu.show(row, event.getScreenX(), event.getScreenY());
@@ -153,6 +156,7 @@ public class AdminDashboardController {
             controller.initializeData(user.getUsername(), user.getPassword(), true); // Pass isAdmin = true for the admin
 
             // Show the new stage (user's dashboard)
+            StageConfigurator.configureStage(stage2);
             stage2.show();
 
             // Close the current admin dashboard stage
@@ -171,23 +175,24 @@ public class AdminDashboardController {
     }
 
     // Method to delete a user from the database
-    private void deleteUser(User user) {
-        String query = "DELETE FROM users_bank WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc-project", "root", "1234");
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, user.getId());
-            ps.executeUpdate();
-            loadData(); // Refresh the data after deletion
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void deleteUser(User user) {
+//        String query = "DELETE FROM users_bank WHERE id = ?";
+//        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc-project", "root", "1234");
+//             PreparedStatement ps = conn.prepareStatement(query)) {
+//            ps.setInt(1, user.getId());
+//            ps.executeUpdate();
+//            loadData(); // Refresh the data after deletion
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void loadData() {
         // SQL query to fetch all users, excluding the admin
-        String query = "SELECT id, first_Name, last_Name, Age_user, SoldAccount_user, username, password, gender, occupation FROM users_bank";
+        String query = "SELECT id, first_Name, last_Name, Age_user, BALANCE, username, password, gender, occupation FROM users_bank";
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc-project", "root", "1234");
+
              PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
@@ -197,7 +202,7 @@ public class AdminDashboardController {
                 String firstName = rs.getString("first_Name");
                 String lastName = rs.getString("last_Name");
                 int age = rs.getInt("Age_user");
-                BigDecimal soldAccount = rs.getBigDecimal("SoldAccount_user");
+                BigDecimal soldAccount = rs.getBigDecimal("BALANCE");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
 
@@ -218,5 +223,21 @@ public class AdminDashboardController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void switchToHome() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+        Stage stage2 = new Stage();
+        Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(getClass().getResource("styleTEXTFields.css").toExternalForm());
+        stage2.setScene(scene);
+
+        stage2.setTitle("Wallet APP");
+        stage2.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("Wallet-PNG-Background.png")));
+
+        StageConfigurator.configureStage(stage2);
+        stage2.show();
+        //close the current scene
+        Stage stage = (Stage) refreshButton.getScene().getWindow();
+        stage.close();
     }
 }

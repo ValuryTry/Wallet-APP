@@ -1,0 +1,6 @@
+.AnchorPane{
+    -fx-background-image: url("freepik__expand__37537.png");
+    -fx-background-size: cover, 100px 100px;
+    -fx-background-repeat: no-repeat, repeat;
+    -fx-background-position: center, top left;
+}

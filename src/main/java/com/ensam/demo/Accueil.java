@@ -2,6 +2,7 @@ package com.ensam.demo;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.scene.control.Button;
 import javafx.util.Duration;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -27,11 +28,44 @@ public class Accueil implements Initializable {
     private TextField TF_username;
     @FXML
     private TextField TF_password;
+    @FXML
+    private Button Exit;
+    // @FXML
+    //private Button toggleVisibilityButton;
     int attempts = 0;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        AnimationHelper.addTextFieldAnimation(TF_username);
+        AnimationHelper.addTextFieldAnimation(TF_password);
 
     }
+
+    @FXML
+    private void quitApplication() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Quit");
+        alert.setHeaderText(null);
+        alert.setContentText("Vous etes sur de vouloir quitter l'application ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Platform.exit(); // Gracefully exit the application
+            System.exit(0);  // Ensure all threads are terminated}
+        }
+
+
+    }
+
+    @FXML
+    private void onHoverForExit(Button button) {
+        button.setStyle("-fx-background-color: red; -fx-text-fill: #f0f0f0");
+    }
+    public void onhoverExit(){onHoverForExit(Exit);}
+    private void onExitforExit(Button button){
+        button.setStyle("");
+    }
+    public void onExitExit(){onExitforExit(Exit);}
+
     public void switchSceneToSignUp() throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sign_up.fxml"));
@@ -39,13 +73,15 @@ public class Accueil implements Initializable {
         stage2.setScene(new Scene(loader.load()));
         stage2.setTitle("Wallet APP");
         stage2.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("Wallet-PNG-Background.png")));
+        StageConfigurator.configureStage(stage2);
         stage2.show();
         //close the current scene
         Stage stage = (Stage) TF_username.getScene().getWindow();
         stage.close();
     }
+
     public void switchSceneToLogin() throws IOException, SQLException {
-        if(TF_username.getText().equals("") || TF_password.getText().equals("")) {
+        if (TF_username.getText().equals("") || TF_password.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("les champs non renseignés");
             alert.setHeaderText(null);
@@ -59,7 +95,7 @@ public class Accueil implements Initializable {
             preparedStatement.setString(1, TF_username.getText());
             preparedStatement.setString(2, TF_password.getText());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 //i added a admin account option so the code will change a little bit
                 String role = resultSet.getString("role"); // Fetch the user's role
                 String username = resultSet.getString("username");
@@ -75,6 +111,7 @@ public class Accueil implements Initializable {
                     stage2.setScene(new Scene(loader.load()));
                     stage2.setTitle("Admin Dashboard");
                     stage2.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("Wallet-PNG-Background.png")));
+                    StageConfigurator.configureStage(stage2);
                     stage2.show();
 
                     // Close the current scene
@@ -94,6 +131,7 @@ public class Accueil implements Initializable {
                     stage2.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("Wallet-PNG-Background.png")));
                     LoggedInController controller = loader.getController();
                     controller.initializeData(TF_username.getText(), TF_password.getText());
+                    StageConfigurator.configureStage(stage2);
                     stage2.show();
                     //close the current scene
                     Stage stage = (Stage) TF_username.getScene().getWindow();
@@ -118,33 +156,32 @@ public class Accueil implements Initializable {
                 Stage stage = (Stage) TF_username.getScene().getWindow();
                 stage.close();
             }*/
-            }
-            else{
+            } else {
 
-                            while (attempts < 3) {
-                                if (attempts == 2) {
-                                    // Exit the application after 3 failed attempts
-                                    Stage stage = (Stage) TF_username.getScene().getWindow();
-                                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                                    //alert.setContentText("You have exceeded the number of attempts, the page will close."); (the simple one)
-                                    alert.setContentText("You have exceeded the number of attempts. The page will close in: 5 seconds.");
-                                    alert.setHeaderText(null);
-                                    String imagePath = "C:/Users/USER/IdeaProjects/demo/src/main/resources/com/ensam/demo/ATTENTION.png";
-                                    File file = new File(imagePath);
-                                    Image image = new Image(file.toURI().toString());
-                                    ImageView imageView = new ImageView(image);
-                                    imageView.setFitHeight(50);
-                                    imageView.setFitWidth(50);
-                                    imageView.setPreserveRatio(true);
-                                    alert.setGraphic(imageView);
+                while (attempts < 3) {
+                    if (attempts == 2) {
+                        // Exit the application after 3 failed attempts
+                        Stage stage = (Stage) TF_username.getScene().getWindow();
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        //alert.setContentText("You have exceeded the number of attempts, the page will close."); (the simple one)
+                        alert.setContentText("You have exceeded the number of attempts. The page will close in: 5 seconds.");
+                        alert.setHeaderText(null);
+                        String imagePath = "C:/Users/USER/IdeaProjects/demo/src/main/resources/com/ensam/demo/ATTENTION.png";
+                        File file = new File(imagePath);
+                        Image image = new Image(file.toURI().toString());
+                        ImageView imageView = new ImageView(image);
+                        imageView.setFitHeight(50);
+                        imageView.setFitWidth(50);
+                        imageView.setPreserveRatio(true);
+                        alert.setGraphic(imageView);
 
-                                    alert.show();
-                                    //version 1 of alert shows and stage closes (simple)
+                        alert.show();
+                        //version 1 of alert shows and stage closes (simple)
                                     /*alert.showAndWait();
                                     stage.close();
                                     return;*/
 
-                                    //version 2 includes time
+                        //version 2 includes time
                                     /*PauseTransition pause = new PauseTransition(Duration.seconds(5));
                                     pause.setOnFinished(e -> {
                                         Platform.runLater(() -> {
@@ -158,43 +195,43 @@ public class Accueil implements Initializable {
                                     return */
 
 
-                                    //Version 3 (avancée)
+                        //Version 3 (avancée)
 
-                                    final int[] countdown = {5}; // countdown from 5 seconds
-                                    Timeline timeline = new Timeline(
-                                            new KeyFrame(Duration.seconds(1), event -> {
-                                                countdown[0]--; // Decrement countdown
-                                                alert.setContentText("You have exceeded the number of attempts. The page will close in: " + countdown[0] + " seconds.");
-                                                if (countdown[0] == 0) {
-                                                    // When countdown reaches 0, close both alert and stage
-                                                    Platform.runLater(() -> {
-                                                        alert.close(); // Close the alert
-                                                        stage.close(); // Close the stage automatically
-                                                    });
-                                                }
-                                            })
-                                    );
-                                    timeline.setCycleCount(5); // Run for 5 seconds
-                                    timeline.play(); // Start the countdown
-                                    alert.setOnCloseRequest(event -> {
-                                        stage.close(); // Close stage immediately when the alert is closed
-                                    });
-                                    return;
-                                }
-                                Alert alert = new Alert(Alert.AlertType.WARNING);
-                                alert.setContentText("Le username ou password est incorrect. \n"+ "attempts left :"+(3- (attempts+1)) +"\n"+"The page will close afterwards");
-                                alert.setHeaderText(null);
-                                alert.showAndWait();
-                                attempts++;
-
-
-                                return;
-                            }
-
-                        }
+                        final int[] countdown = {5}; // countdown from 5 seconds
+                        Timeline timeline = new Timeline(
+                                new KeyFrame(Duration.seconds(1), event -> {
+                                    countdown[0]--; // Decrement countdown
+                                    alert.setContentText("You have exceeded the number of attempts. The page will close in: " + countdown[0] + " seconds.");
+                                    if (countdown[0] == 0) {
+                                        // When countdown reaches 0, close both alert and stage
+                                        Platform.runLater(() -> {
+                                            alert.close(); // Close the alert
+                                            stage.close(); // Close the stage automatically
+                                        });
+                                    }
+                                })
+                        );
+                        timeline.setCycleCount(5); // Run for 5 seconds
+                        timeline.play(); // Start the countdown
+                        alert.setOnCloseRequest(event -> {
+                            stage.close(); // Close stage immediately when the alert is closed
+                        });
+                        return;
                     }
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("Le username ou password est incorrect. \n" + "attempts left :" + (3 - (attempts + 1)) + "\n" + "The page will close afterwards");
+                    alert.setHeaderText(null);
+                    alert.showAndWait();
+                    attempts++;
 
+
+                    return;
+                }
 
             }
         }
+
+
+    }
+}
 
